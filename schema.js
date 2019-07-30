@@ -1,11 +1,12 @@
 const axios = require('axios')
 
-const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLSchema } = require('graphql');
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLSchema } = require('graphql');
 
 //Article Type
 const ArticleType = new GraphQLObjectType({
     name: 'Artcle',
     fields: () => ({
+        id: {type: GraphQLID},
         author: {type:  GraphQLString},
         title: {type: GraphQLString},
         urlToImage: {type: GraphQLString},
@@ -18,7 +19,7 @@ const ArticleType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields:{
-        _articles:{
+        articles:{
             type: new GraphQLList(ArticleType),
             resolve(parent, args){
                 return axios.get('https://newsapi.org/v2/top-headlines?country=ng&apiKey=3a0570d80ebc48d095f3b31db738e453')
